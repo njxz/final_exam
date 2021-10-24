@@ -1,7 +1,7 @@
 syntax = "proto3";
 package kratos.api;
 
-option go_package = "BFF/internal/conf;conf";
+option go_package = "bff/internal/conf;conf";
 import "google/protobuf/duration.proto";
 
 message Config{

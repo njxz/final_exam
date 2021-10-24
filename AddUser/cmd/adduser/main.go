@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"github.com/go-kratos/kratos/v2/config"
 	"github.com/go-kratos/kratos/v2/config/file"
-	"golang.org/x/sync/errgroup"
+	"sync"
 )
 
 func main() {
@@ -23,13 +23,21 @@ func main() {
 		fmt.Println("config scan error: ", err)
 		return
 	}
-
-	g, err := errgroup.WithContext(context.Background())
-	if err != nil {
-		fmt.Println("errgroup init error")
-		return
-	}
+	ctx := context.Background()
+	wg := sync.WaitGroup{}
 
 	srv := server.NewGrpcServer(&cf)
-
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		err := srv.Start(ctx)
+		fmt.Println(err)
+	}()
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		<-ctx.Done()
+		srv.Stop(ctx)
+	}()
+	wg.Wait()
 }

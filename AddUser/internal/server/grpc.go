@@ -9,8 +9,9 @@ import (
 )
 
 func NewGrpcServer(cf *conf.Config) *grpc.Server {
-	opts := []grpc.ServerOption{
-		grpc.Middleware(recovery.Recovery()),
+	var opts = []grpc.ServerOption{
+		grpc.Middleware(
+			recovery.Recovery()),
 	}
 	if cf.Address != "" {
 		opts = append(opts, grpc.Address(cf.Address))
@@ -20,7 +21,7 @@ func NewGrpcServer(cf *conf.Config) *grpc.Server {
 	}
 
 	srv := grpc.NewServer(opts...)
-	v1.RegisterAddUserServer(srv, service.NewAddUser())
+	srv.RegisterService(&v1.AddUser_ServiceDesc, service.NewAddUser())
 	return srv
 
 }

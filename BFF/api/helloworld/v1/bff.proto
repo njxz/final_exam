@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+option go_package = "User/api/user/v1;v1";
+option java_multiple_files = true;
+option java_package = "user.v1";
+option objc_class_prefix = "UserAPI";
+
+package user.v1;
+
+service User{
+  rpc GetUser(GetUserRequest) returns (GetUserResponse){}
+  rpc AddUser(AddUserRequest) returns (AddResponse){}
+}
+message GetUserRequest{
+  string userid=1;
+}
+
+message GetUserResponse{
+  string userid =1 ;
+  string user=2;
+}
+
+message AddUserRequest{
+  string userid=1;
+  string user=2;
+}
+message AddResponse{
+  bool status=1;
+}

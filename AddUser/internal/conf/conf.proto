@@ -1,0 +1,9 @@
+syntax = "proto3";
+package kratos.api;
+option go_package = "UserAdd/internal/conf;conf";
+import "google/protobuf/duration.proto";
+
+message Config{
+  string address=1;
+  google.protobuf.Duration timeout=2;
+}

@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option go_package = "AddUser/api/adduser/v1;v1";
+option java_multiple_files = true;
+option java_package = "adduser.v1.errors";
+option objc_class_prefix = "AddUserAPI";
+
+package adduser.v1;
+
+service AddUser{
+  rpc CreateUser(AddRequest) returns (AddResponse){}
+}
+message AddRequest{
+  string userid=1;
+  string name=2;
+}
+
+message AddResponse{
+  bool status=1;
+}
